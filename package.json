@@ -1,10 +1,10 @@
 {
-  "name": "[javascript-calculator]",
+  "name": "javascript-calculator",
   "version": "0.1.0",
   "description": "FreeCodeCamp, Zipline Project, JavaScript Calculator.",
   "author": "Gilbert Smith",
   "license": "MIT",
-  "homepage": "https://github.com/FCC-Zipline-JavaScript-Calculator#readme",
+  "homepage": "https://github.com/GJSmith3rd/FCC-Zipline-JavaScript-Calculator",
   "repository": {
     "type": "git",
     "url": "git@github.com:GJSmith3rd/FCC-Zipline-JavaScript-Calculator.git"
@@ -43,6 +43,7 @@
     "gulp-util": "^3.0.6",
     "jquery": "^2.1.4",
     "jshint-stylish": "^2.0.1",
+    "jshint": "^2.0.0",
     "wiredep": "^2.2.2",
     "yargs": "^3.15.0"
   },
