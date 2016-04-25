@@ -30,11 +30,12 @@ gulp.task('css-prep', ['clean-dev'], function () {
         .src(config.less)
         .pipe($.plumber())
         .pipe($.less())
-        .pipe($.uncss({
-            html: ['index.html']
-        }))
+        // .pipe($.uncss({
+        //     html: ['index.html']
+        // }))
         .pipe($.autoprefixer({
-            browsers: ['last 2 version', '> 5%'] }))
+            browsers: ['last 2 version', '> 5%']
+        }))
         .pipe($.cssnano())
         .pipe(gulp.dest(config.root));
 });
@@ -106,7 +107,7 @@ function serve() {
     log('***Start pre processes and node server...');
 
     var nodeOptions = {
-      //debug: true,
+        //debug: true,
         //nodeArgs: ['--debug-brk'],
         script: config.nodeServer,
         delayTime: 15,

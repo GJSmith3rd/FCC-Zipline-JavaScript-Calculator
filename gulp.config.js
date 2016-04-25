@@ -17,7 +17,7 @@ module.exports = function () {
                 index: './index.html',
 
                 //script.js
-                js: './script.js ./app.js',
+                js: './script.js',
 
 
                 //config.less
