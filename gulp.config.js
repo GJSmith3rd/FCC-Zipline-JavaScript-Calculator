@@ -6,7 +6,6 @@ module.exports = function () {
                 alljs: [
                         'app.js',
                         'script.js'
-                        //'worker.js'
                 ],
 
                 browserReloadDelay: 3000,
@@ -18,7 +17,8 @@ module.exports = function () {
                 index: './index.html',
 
                 //script.js
-                js: './script.js',
+                js: './script.js ./app.js',
+
 
                 //config.less
                 less: './styles.less',
