@@ -1,20 +1,20 @@
 {
-  "name": "Random-Quote-Machine",
+  "name": "[javascript-calculator]",
   "version": "0.1.0",
-  "description": "FreeCodeCamp, Zipline Project, Random Quote Machine.",
+  "description": "FreeCodeCamp, Zipline Project, JavaScript Calculator.",
   "author": "Gilbert Smith",
   "license": "MIT",
-  "homepage": "https://github.com/GJSmith3rd/FCC-Zipline-Random-Quote-Machine#readme",
+  "homepage": "https://github.com/FCC-Zipline-JavaScript-Calculator#readme",
   "repository": {
     "type": "git",
-    "url": "git@github.com:GJSmith3rd/FCC-Zipline-Random-Quote-Machine.git"
+    "url": "git@github.com:GJSmith3rd/FCC-Zipline-JavaScript-Calculator.git"
   },
   "scripts": {
     "init": "npm install",
     "start": "app.js"
   },
   "bugs": {
-    "url": "https://github.com/GJSmith3rd/FCC-Zipline-Random-Quote-Machine/issues"
+    "url": "https://github.com/GJSmith3rd/FCC-Zipline-JavaScript-Calculator/issues"
   },
   "devDependencies": {
     "browser-sync": "^2.8.0",
