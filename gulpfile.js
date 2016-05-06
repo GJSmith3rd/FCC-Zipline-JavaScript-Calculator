@@ -13,8 +13,38 @@ var $ = require('gulp-load-plugins')({ lazy: true }),
  * for development workflow
  *
  */
-gulp.task('serve-dev', ['css-prep'], function () {
+gulp.task('serve-dev', ['js-prep', 'css-prep'], function () {
     serve();
+});
+
+/*
+* JS-PREP
+*
+* minimize and concat js files
+* Minify and copy all JavaScript (except vendor scripts)
+*
+*/
+gulp.task('js-prep', ['clean-js'], function () {
+
+    log('***uglify and minimize js...');
+    return gulp
+        .src(config.srcjs)
+        .pipe($.plumber())
+        .pipe($.uglify())
+        .pipe($.rename('script.js'))
+        .pipe($.license('MIT', {tiny: false}))
+        .pipe(gulp.dest(config.root));
+});
+
+/*
+ * CLEAN-JS
+ *
+ * call CLEAN with file dev blob path
+ *
+ */
+gulp.task('clean-js', ['vet'], function (done) {
+    log('***cleaning JS...');
+    clean([config.js], done);
 });
 
 /*
@@ -24,29 +54,28 @@ gulp.task('serve-dev', ['css-prep'], function () {
 * autoprefix css with gulp-autoprefixer
 *
 */
-gulp.task('css-prep', ['clean-dev'], function () {
+gulp.task('css-prep', ['clean-css'], function () {
     log('***Compiling less to css...');
     return gulp
         .src(config.less)
         .pipe($.plumber())
         .pipe($.less())
-        // .pipe($.uncss({
-        //     html: ['index.html']
-        // }))
         .pipe($.autoprefixer({
             browsers: ['last 2 version', '> 5%']
         }))
         .pipe($.cssnano())
+        .pipe($.rename('styles.css'))
         .pipe(gulp.dest(config.root));
 });
 
 /*
- * CLEAN-DEV
+ * CLEAN-CSS
  *
  * call CLEAN with file dev blob path
  *
  */
-gulp.task('clean-dev', ['vet'], function (done) {
+gulp.task('clean-css', function (done) {
+    log('***cleaning CSS...');
     clean([config.css], done);
 });
 
@@ -57,7 +86,7 @@ gulp.task('clean-dev', ['vet'], function (done) {
  *
  */
 gulp.task('vet', function () {
-    log('***Analyzing js with jshint and jscs..');
+    log('***Analyzing js with jshint and jscs...');
     return gulp
         .src(config.alljs)
         .pipe($.if(args.verbose, $.print()))
@@ -82,7 +111,6 @@ gulp.task('help', $.taskListing);
  *
  */
 gulp.task('default', ['serve-dev']);
-
 
 //////////////////////////////////////
 
@@ -115,11 +143,11 @@ function serve() {
             'PORT': port,
             'NODE_ENV': 'dev'
         },
-        watch: [config.server]
+        watch: [config.alljs]
     };
 
     return $.nodemon(nodeOptions)
-        .on('restart', ['vet'], function (ev) {
+        .on('restart', ['js-prep'], function (ev) {
             log('*** nodemon restarted...');
             log('files changes on restart:\n' + ev);
             setTimeout(function () {
@@ -158,7 +186,7 @@ function log(msg) {
 }
 
 /*
- * CHANGEEVENT
+ * CHANGE EVENT
  *
  * log output with gulp-util
  *
@@ -168,7 +196,7 @@ function changeEvent(event) {
 }
 
 /*
- * STARTBROWSERSYNC
+ * START BROWSERSYNC
  *
  * start browsersync server
  *
@@ -186,7 +214,7 @@ function startBrowserSync() {
             changeEvent(event);
         });
 
-    gulp.watch(config.js, ['vet', browserSync.reload])
+    gulp.watch(config.srcjs, ['js-prep', browserSync.reload])
         .on('change', function (event) {
             changeEvent(event);
         });

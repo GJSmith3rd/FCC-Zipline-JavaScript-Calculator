@@ -5,7 +5,7 @@ module.exports = function () {
                 //JavaScript - all js to vet
                 alljs: [
                         'app.js',
-                        'script.js'
+                        './source/srcscript.js', 'gulp.config.js', 'gulpfile.js'
                 ],
 
                 browserReloadDelay: 3000,
@@ -19,15 +19,18 @@ module.exports = function () {
                 //script.js
                 js: './script.js',
 
-
                 //config.less
-                less: './styles.less',
+                less: './source/srcstyles.less',
 
                 //node settings
                 nodeDefaultPort: 7203,
                 nodeServer: './app.js',
 
-                root: './'
+                //root directory
+                root: './',
+
+                //source files
+                srcjs: './source/srcscript.js',
 
         };
 
