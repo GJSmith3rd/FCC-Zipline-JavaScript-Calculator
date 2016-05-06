@@ -267,8 +267,6 @@ function startBrowserSync() {
 
     var options = {
 
-        port: 3099,
-        proxy: '10.0.0.57:' + port,
         files: [
             config.js,
             config.index,
@@ -276,20 +274,31 @@ function startBrowserSync() {
         ],
         ghostMode: {
             clicks: false,
-            location: false,
             forms: false,
             scroll: true
         },
         injectChanges: true,
+        logConnections: true,
         logFileChanges: true,
         logLevel: 'debug',
         logPrefix: '*** browserSync',
         notify: true,
-        reloadOnRestart: true,
-        reloadDelay: 3000,
+        online: true,
         open: false,
+        port: 3099,
+        proxy: '10.0.0.57:' + port,
+        reloadDebounce: 5000,
+        reloadOnRestart: true,
+        reloadDelay: 5000,
         scrollRestoreTechnique: 'cookie',
-        scrollProportionally: true
+        scrollProportionally: false,
+        tunnel: null,
+        ui: {
+            port: 4099,
+            weinre: {
+                port: 5099
+            }
+        }
     };
 
     browserSync(options);

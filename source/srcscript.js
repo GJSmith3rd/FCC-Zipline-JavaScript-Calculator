@@ -1,7 +1,5 @@
 /* global $ */
 
-/*!TEST */
-
 $(document).ready(function () {
 
   // timer default setup
