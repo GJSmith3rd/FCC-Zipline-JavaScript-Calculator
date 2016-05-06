@@ -13,8 +13,42 @@ var $ = require('gulp-load-plugins')({ lazy: true }),
  * for development workflow
  *
  */
-gulp.task('serve-dev', ['js-prep', 'css-prep'], function () {
+gulp.task('serve-dev', ['js-prep', 'css-prep', 'index-prep'], function () {
     serve();
+});
+
+/*
+* INDEX-PREP
+*
+* minimize index.html
+*
+*/
+gulp.task('index-prep', ['clean-index'], function () {
+
+    log('***minimize index.html...');
+    return gulp
+        .src(config.srcindex)
+        .pipe($.plumber())
+        .pipe($.htmlmin(
+            {
+                collapseWhitespace: true,
+                removeRedundantAttributes: true,
+                ignoreCustomComments: [/^!--\[if/],
+                removeComments: true
+            }))
+        .pipe($.rename('index.html'))
+        .pipe(gulp.dest(config.root));
+});
+
+/*
+ * CLEAN-INDEX
+ *
+ * call CLEAN with file dev blob path
+ *
+ */
+gulp.task('clean-index', function (done) {
+    log('***cleaning Index...');
+    clean([config.index], done);
 });
 
 /*
@@ -32,7 +66,10 @@ gulp.task('js-prep', ['clean-js'], function () {
         .pipe($.plumber())
         .pipe($.uglify())
         .pipe($.rename('script.js'))
-        .pipe($.license('MIT', {tiny: false}))
+        .pipe($.license('MIT', {
+            tiny: true,
+            organization: 'mobileCreature - GJSmith3rd - Gilbert Joseph Smith III'
+        }))
         .pipe(gulp.dest(config.root));
 });
 
@@ -57,13 +94,17 @@ gulp.task('clean-js', ['vet'], function (done) {
 gulp.task('css-prep', ['clean-css'], function () {
     log('***Compiling less to css...');
     return gulp
-        .src(config.less)
+        .src(config.srcstyles)
         .pipe($.plumber())
         .pipe($.less())
         .pipe($.autoprefixer({
             browsers: ['last 2 version', '> 5%']
         }))
         .pipe($.cssnano())
+        .pipe($.license('MIT', {
+            tiny: true,
+            organization: 'mobileCreature - GJSmith3rd - Gilbert Joseph Smith III'
+        }))
         .pipe($.rename('styles.css'))
         .pipe(gulp.dest(config.root));
 });
@@ -147,7 +188,7 @@ function serve() {
     };
 
     return $.nodemon(nodeOptions)
-        .on('restart', ['js-prep'], function (ev) {
+        .on('restart', ['vet'], function (ev) {
             log('*** nodemon restarted...');
             log('files changes on restart:\n' + ev);
             setTimeout(function () {
@@ -209,7 +250,7 @@ function startBrowserSync() {
 
     log('***Starting browserSync on port ' + port);
 
-    gulp.watch(config.less, ['css-prep', browserSync.stream])
+    gulp.watch(config.srcstyles, ['css-prep', browserSync.stream])
         .on('change', function (event) {
             changeEvent(event);
         });
@@ -219,7 +260,7 @@ function startBrowserSync() {
             changeEvent(event);
         });
 
-    gulp.watch(config.index, browserSync.reload)
+    gulp.watch(config.srcindex, ['index-prep', browserSync.reload])
         .on('change', function (event) {
             changeEvent(event);
         });

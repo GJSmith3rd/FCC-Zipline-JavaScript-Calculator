@@ -19,9 +19,6 @@ module.exports = function () {
                 //script.js
                 js: './script.js',
 
-                //config.less
-                less: './source/srcstyles.less',
-
                 //node settings
                 nodeDefaultPort: 7203,
                 nodeServer: './app.js',
@@ -30,7 +27,9 @@ module.exports = function () {
                 root: './',
 
                 //source files
+                srcindex: './source/srcindex.html',
                 srcjs: './source/srcscript.js',
+                srcstyles: './source/srcstyles.less'
 
         };
 
